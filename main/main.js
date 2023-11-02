@@ -3,21 +3,41 @@ let losses = 0;
 let draws = 0;
 
 let numberOfGames = 0;
-const choices = ["rock", "paper", "scissors"];
+const choices = ["mage", "knight", "archer"];
 
 const getComputerChoice = () => {
   const randomIndex = Math.round(Math.random() * 2);
   return choices[randomIndex];
 };
 
+const playButtons = document.querySelectorAll("button");
+
+playButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const compChoice = getComputerChoice();
+    const playerWon = playRound(button.id, compChoice);
+
+    if (playerWon === 2) {
+      console.log("It's a draw.");
+      draws++;
+    } else if (playerWon === 1) {
+      console.log("You win.");
+      wins++;
+    } else {
+      console.log("You lose.");
+      losses++;
+    }
+  });
+});
+
 const playRound = (playerSelection, computerSelection) => {
   console.log(`The computer chose: ${computerSelection}`);
   if (playerSelection === computerSelection) {
     return 2 /* Tie */;
   } else if (
-    (playerSelection === "paper" && computerSelection === "rock") ||
-    (playerSelection === "rock" && computerSelection === "scissors") ||
-    (playerSelection === "scissors" && computerSelection === "paper")
+    (playerSelection === choices[0] && computerSelection === choices[1]) ||
+    (playerSelection === choices[1] && computerSelection === choices[2]) ||
+    (playerSelection === choices[2] && computerSelection === choices[0])
   ) {
     return 1 /* Win */;
   } else {
