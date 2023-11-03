@@ -36,6 +36,7 @@ const game = (buttonID) => {
     document.getElementById("losses").textContent = losses;
   }
   numberOfGames++;
+  document.getElementById("games").textContent = numberOfGames;
 };
 
 const playRound = (playerSelection, computerSelection) => {
@@ -58,9 +59,9 @@ const getWinner = () => {
   const playerLost = "You LOST!";
   const playerDraw = " It's a draw!";
 
-  if (wins > losses) {
+  if (wins > losses || (wins > draws && wins > losses)) {
     document.getElementById("winner").textContent = playerWon;
-  } else if (wins === losses) {
+  } else if (wins === losses || (draws > wins && draws > losses)) {
     document.getElementById("winner").textContent = playerDraw;
   } else {
     document.getElementById("winner").textContent = playerLost;
