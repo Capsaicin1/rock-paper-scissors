@@ -14,21 +14,29 @@ const playButtons = document.querySelectorAll("button");
 
 playButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    const compChoice = getComputerChoice();
-    const playerWon = playRound(button.id, compChoice);
-
-    if (playerWon === 2) {
-      console.log("It's a draw.");
-      draws++;
-    } else if (playerWon === 1) {
-      console.log("You win.");
-      wins++;
-    } else {
-      console.log("You lose.");
-      losses++;
-    }
+    numberOfGames < 5 ? game(button.id) : getWinner();
   });
 });
+
+const game = (buttonID) => {
+  const compChoice = getComputerChoice();
+  const playerWon = playRound(buttonID, compChoice);
+
+  if (playerWon === 2) {
+    console.log("It's a draw.");
+    draws++;
+    document.getElementById("draws").textContent = draws;
+  } else if (playerWon === 1) {
+    console.log("You win.");
+    wins++;
+    document.getElementById("wins").textContent = wins;
+  } else {
+    console.log("You lose.");
+    losses++;
+    document.getElementById("losses").textContent = losses;
+  }
+  numberOfGames++;
+};
 
 const playRound = (playerSelection, computerSelection) => {
   console.log(`The computer chose: ${computerSelection}`);
@@ -45,44 +53,16 @@ const playRound = (playerSelection, computerSelection) => {
   }
 };
 
-const Game = () => {
-  while (numberOfGames < 5) {
-    const playerChoice = prompt(
-      "Enter 'rock', 'paper' pr scissors (or 'q' to quit):"
-    );
+const getWinner = () => {
+  const playerWon = "You Win!";
+  const playerLost = "You LOST!";
+  const playerDraw = " It's a draw!";
 
-    // playerChoice.toLowerCase();
-
-    if (playerChoice === null || playerChoice.toLowerCase() === "q") {
-      console.log("Sorry to see you go");
-      break;
-    }
-
-    if (
-      playerChoice !== "rock" &&
-      playerChoice !== "paper" &&
-      playerChoice !== "scissors"
-    ) {
-      console.log("Please enter a valid choice.");
-      continue;
-    }
-
-    const compChoice = getComputerChoice();
-    const playerWon = playRound(playerChoice, compChoice);
-
-    if (playerWon === 2) {
-      console.log("It's a draw.");
-      draws++;
-    } else if (playerWon === 1) {
-      console.log("You win.");
-      wins++;
-    } else {
-      console.log("You lose.");
-      losses++;
-    }
-
-    numberOfGames++;
+  if (wins > losses) {
+    document.getElementById("winner").textContent = playerWon;
+  } else if (wins === losses) {
+    document.getElementById("winner").textContent = playerDraw;
+  } else {
+    document.getElementById("winner").textContent = playerLost;
   }
 };
-
-Game();
